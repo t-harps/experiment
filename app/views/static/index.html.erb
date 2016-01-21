@@ -7,8 +7,14 @@
       <h2> <%= "#{user.email} -- id: #{user.id}" %> </h2>
       <%= form_for(user.links.build) do |f| %>
         <%= hidden_field_tag :user_id, user.id %>
-        <%= f.number_field :linkable_id %>
+        <%= number_field_tag :linkable_id %>
         <%= f.submit "Add Friend" %>
+      <% end %>
+      <%= form_for(user.links.build) do |f| %>
+        <%= hidden_field_tag :user_id, user.id %>
+        <%= hidden_field_tag :linkable_type, 'Developer' %>
+        <%= number_field_tag :linkable_id %>
+        <%= f.submit "Add Developer" %>
       <% end %>
       <h3>Friends:</h3>
       <% user.friends.each do |friend| %>
@@ -36,6 +42,7 @@
         <p> <%= "#{dev.email} -- #{dev.id}" %> </p>
         <%= form_for(user.links.build) do |f| %>
           <%= hidden_field_tag :user_id, user.id %>
+          <%= hidden_field_tag :linkable_type, 'Developer' %>
           <%= hidden_field_tag :linkable_id, dev.id %>
         <%= f.submit "Accept Request" %>
         <% end %>
@@ -46,12 +53,14 @@
   <div class="col-sm-4">
     <h1> Developers </h1>
     <% @developers.each do |dev| %>
+      <h2> <%= "#{dev.email} -- #{dev.id}" %> </h2>
       <%= form_for(dev.links.build) do |f| %>
         <%= hidden_field_tag :linkable_id, dev.id %>
-        <%= f.number_field :user_id %>
+        <%= hidden_field_tag :linkable_type, 'Developer' %>
+        <%= hidden_field_tag :toggle, 'true' %>
+        <%= number_field_tag :user_id %>
         <%= f.submit "Add User" %>
       <% end %>
-      <h2> <%= "#{dev.email} -- #{dev.id}" %> </h2>
       <h3> Users: </h3>
       <% dev.users.each do |user| %>
         <p> <%= "#{user.email} -- #{user.id}" %> </p>
@@ -62,7 +71,7 @@
   <div class="col-sm-4">
     <h1> Links </h1>
     <% @links.each do |link| %>
-      <p><%= "#{User.find(link.user_id).email} -- #{link.linkable_id}" %></p>
+      <p><%= "#{User.find(link.user_id).email} -- #{Developer.find(link.linkable_id).email} -- #{link.linkable_type}" %></p>
     <% end %>
   </div>
 </div>
