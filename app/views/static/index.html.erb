@@ -5,13 +5,40 @@
     <h1> Users </h1>
     <% @users.each do |user| %>
       <h2> <%= "#{user.email} -- id: #{user.id}" %> </h2>
+      <%= form_for(user.links.build) do |f| %>
+        <%= hidden_field_tag :user_id, user.id %>
+        <%= f.number_field :linkable_id %>
+        <%= f.submit "Add Friend" %>
+      <% end %>
       <h3>Friends:</h3>
       <% user.friends.each do |friend| %>
         <p> <%= "#{friend.email} -- #{friend.id}" %> </p>
       <% end %>
+      <h3>Pending Friends:</h3>
+      <% user.pending_friends.each do |friend| %>
+        <p> <%= "#{friend.email} -- #{friend.id}" %> </p>
+      <% end %>
+      <h3>Friend Requests Recieved:</h3>
+      <% user.friend_requests.each do |friend| %>
+        <p> <%= "#{friend.email} -- #{friend.id}" %> </p>
+        <%= form_for(user.links.build) do |f| %>
+          <%= hidden_field_tag :user_id, user.id %>
+          <%= hidden_field_tag :linkable_id, friend.id %>
+        <%= f.submit "Accept Request" %>
+        <% end %>
+      <% end %>
       <h3>Developers:</h3>
       <% user.developers.each do |dev| %>
         <p> <%= "#{dev.email} -- #{dev.id}" %> </p>
+      <% end %>
+       <h3>Developer Requests:</h3>
+      <% user.developer_requests.each do |dev| %>
+        <p> <%= "#{dev.email} -- #{dev.id}" %> </p>
+        <%= form_for(user.links.build) do |f| %>
+          <%= hidden_field_tag :user_id, user.id %>
+          <%= hidden_field_tag :linkable_id, dev.id %>
+        <%= f.submit "Accept Request" %>
+        <% end %>
       <% end %>
     <% end %>
   </div>
@@ -19,6 +46,11 @@
   <div class="col-sm-4">
     <h1> Developers </h1>
     <% @developers.each do |dev| %>
+      <%= form_for(dev.links.build) do |f| %>
+        <%= hidden_field_tag :linkable_id, dev.id %>
+        <%= f.number_field :user_id %>
+        <%= f.submit "Add User" %>
+      <% end %>
       <h2> <%= "#{dev.email} -- #{dev.id}" %> </h2>
       <h3> Users: </h3>
       <% dev.users.each do |user| %>
@@ -33,5 +65,4 @@
       <p><%= "#{User.find(link.user_id).email} -- #{link.linkable_id}" %></p>
     <% end %>
   </div>
-
 </div>

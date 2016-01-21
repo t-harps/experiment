@@ -5,6 +5,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :links
-  has_many :developers, through: :links, source: :linkable, :source_type => "Developer"
-  has_many :friends, through: :links, source: :linkable, :source_type => "User"
+  has_many :developers, -> { where "status = 'accepted'" }, through: :links, source: :linkable, :source_type => "Developer"
+  has_many :friends, -> { where "status = 'accepted'" }, through: :links, source: :linkable, :source_type => "User"
+  has_many :pending_friends, -> { where "status = 'pending'" }, :through => :links, source: :linkable, :source_type => "User"
+  has_many :friend_requests, -> { where "status = 'requested'" }, :through => :links, source: :linkable, :source_type => "User"
+  has_many :pending_developers, -> { where "status = 'pending'" }, :through => :links, source: :linkable, :source_type => "Developer"
+  has_many :developer_requests, -> { where "status = 'requested'" }, :through => :links, source: :linkable, :source_type => "Developer"
 end

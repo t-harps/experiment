@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120151954) do
+ActiveRecord::Schema.define(version: 20160121085943) do
 
   create_table "developers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160120151954) do
     t.datetime "updated_at",    null: false
     t.integer  "linkable_id"
     t.string   "linkable_type"
+    t.string   "status"
   end
 
   create_table "users", force: :cascade do |t|
