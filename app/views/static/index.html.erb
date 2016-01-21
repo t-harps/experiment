@@ -37,7 +37,7 @@
       <% user.developers.each do |dev| %>
         <p> <%= "#{dev.email} -- #{dev.id}" %> </p>
       <% end %>
-       <h3>Developer Requests:</h3>
+       <h3>Developer Requests Recieved:</h3>
       <% user.developer_requests.each do |dev| %>
         <p> <%= "#{dev.email} -- #{dev.id}" %> </p>
         <%= form_for(user.links.build) do |f| %>
