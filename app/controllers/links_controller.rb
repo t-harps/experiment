@@ -20,7 +20,7 @@ class LinksController < ApplicationController
     else
       @user = User.find(params[:user_id]) 
       @linkable = User.find(params[:linkable_id])
-      if @user.friend_requests.include?(@linkable)
+      if @user.friend_requests.include?(@linkable) || @user.pending_friends.include?(@linkable)
         Link.accept(@user.id, @linkable.id, 'User')
         flash[:notice] = "Accepted friend request!"
         redirect_to root_path

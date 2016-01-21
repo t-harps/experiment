@@ -71,7 +71,7 @@
   <div class="col-sm-4">
     <h1> Links </h1>
     <% @links.each do |link| %>
-      <p><%= "#{User.find(link.user_id).email} -- #{Developer.find(link.linkable_id).email} -- #{link.linkable_type}" %></p>
+      <p><%= "#{User.find(link.user_id).email} -- #{User.find(link.linkable_id).email} or developer something -- #{link.linkable_type}" %></p>
     <% end %>
   </div>
 </div>

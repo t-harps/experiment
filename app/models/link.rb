@@ -8,7 +8,11 @@ class Link < ActiveRecord::Base
   belongs_to :developer_request, :class_name => "Developer"
 
   before_create do
-    !Link.exists?(user_id: user_id, linkable_id: linkable_id, linkable_type: linkable_type)
+    bool = true
+    if linkable_type == 'User'
+      bool = (user_id != linkable_id)
+    end
+    bool && !Link.exists?(user_id: user_id, linkable_id: linkable_id, linkable_type: linkable_type)
   end
 
   def self.link(user_id, linkable_id, linkable_type)
